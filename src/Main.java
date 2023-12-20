@@ -5,10 +5,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Hey there, what's your name?");
-        String name = sc.next();
-        System.out.println("Hey," + name);
-        sc.close();
+        //starting the program
+        System.out.println("Hello, let's make your booking!");
     }
 }
