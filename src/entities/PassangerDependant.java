@@ -5,16 +5,16 @@ public class PassangerDependant {
     int birthDate;
     String cpf;
     String destination;
-    String responsableName;
-    int responsableBirthdate;
-    String responsableCpf;
+    String responsibleName;
+    int responsibleBirthdate;
+    String responsibleCpf;
 
-    public PassangerDependant(String name, int birthDate, String cpf, String destination, String responsableName, String responsableCpf, int responsableBirthdate) {
+    public PassangerDependant(String name, int birthDate, String cpf, String destination, String responsibleName, String responsibleCpf, int responsibleBirthdate) {
         this.name = name;
         this.birthDate = birthDate;
         this.cpf = cpf;
-        this.responsableName = responsableName;
-        this.responsableBirthdate = responsableBirthdate;
-        this.responsableCpf = responsableCpf;
+        this.responsibleName = responsibleName;
+        this.responsibleBirthdate = responsibleBirthdate;
+        this.responsibleCpf = responsibleCpf;
     }
 }
