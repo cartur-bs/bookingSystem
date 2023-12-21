@@ -1,3 +1,6 @@
+import entities.Passanger;
+
+import java.sql.SQLException;
 import java.util.Scanner;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -7,5 +10,6 @@ public class Main {
 
         //starting the program
         System.out.println("Hello, let's make your booking!");
+
     }
 }
