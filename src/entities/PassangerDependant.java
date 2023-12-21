@@ -2,17 +2,17 @@ package entities;
 
 public class PassangerDependant {
     String name;
-    int birthDate;
+    String birthDate;
     String cpf;
     String destination;
     String responsibleName;
-    int responsibleBirthdate;
+    String responsibleBirthdate;
     String responsibleCpf;
 
-    public PassangerDependant(String name, int birthDate, String cpf, String destination, String responsibleName, String responsibleCpf, int responsibleBirthdate) {
-        this.name = name;
-        this.birthDate = birthDate;
-        this.cpf = cpf;
+    public PassangerDependant(String DepName, String DepBirthDate, String DepCpf, String destination, String responsibleName, String responsibleCpf, String responsibleBirthdate) {
+        this.name = DepName;
+        this.birthDate = DepBirthDate;
+        this.cpf = DepCpf;
         this.responsibleName = responsibleName;
         this.responsibleBirthdate = responsibleBirthdate;
         this.responsibleCpf = responsibleCpf;
