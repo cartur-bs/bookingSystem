@@ -1,13 +1,15 @@
 package entities;
 
-public class PassangerDependant {
+public class PassangerDependant extends Passanger{
+
+    Passanger passanger = new Passanger();
     String name;
     int birthDate;
     String cpf;
-    String destination;
-    String responsibleName;
-    int responsibleBirthdate;
-    String responsibleCpf;
+    String destination = passanger.getDestination();
+    String responsibleName = passanger.getName();
+    int responsibleBirthdate = passanger.getBirthDate();
+    String responsibleCpf = passanger.getCpf();
 
     public PassangerDependant(String name, int birthDate, String cpf, String destination, String responsibleName, String responsibleCpf, int responsibleBirthdate) {
         this.name = name;
@@ -17,4 +19,6 @@ public class PassangerDependant {
         this.responsibleBirthdate = responsibleBirthdate;
         this.responsibleCpf = responsibleCpf;
     }
+
+
 }

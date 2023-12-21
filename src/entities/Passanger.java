@@ -17,10 +17,16 @@ public class Passanger {
         return birthDate;
     }
 
+    public String getCpf() {
+        return cpf;
+    }
+
     public String getDestination() {
         return destination;
     }
 
+    public Passanger() {
+    }
     public Passanger(String name, int birthDate, String cpf, String destination) {
         this.name = name;
         this.birthDate = birthDate;
@@ -42,7 +48,7 @@ public class Passanger {
 
 
     public void consultPerson() throws SQLException{
-        System.out.println("creating person");
+        System.out.println("consulting person");
     }
 
 }
