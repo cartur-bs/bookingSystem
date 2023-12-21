@@ -1,5 +1,5 @@
-import entities.Passanger;
-import entities.PassangerDependant;
+import entities.Passenger;
+import entities.PassengerDependant;
 
 import java.sql.SQLException;
 import java.util.InputMismatchException;
@@ -26,12 +26,12 @@ public class Main {
         System.out.println("Would you like to add a dependant?(Y/N)");
         char isThereDependant = sc.next().charAt(0);
 
-        if(isThereDependant == 'N'){
-            Passanger passanger = new Passanger(name, bDate, CPF, email, destination);
+        if(isThereDependant == 'N'|| isThereDependant == 'n'){
+            Passenger passenger = new Passenger(name, bDate, CPF, email, destination);
             System.out.println("Your booking is complete!");
         }
 
-        if(isThereDependant == 'Y'){
+        if(isThereDependant == 'Y' || isThereDependant == 'y'){
             System.out.println("Let's add your dependant information!");
             System.out.println("What's your dependant name?");
             String depName = sc.next();
@@ -39,8 +39,9 @@ public class Main {
             String depBdate = sc.next();
             System.out.println("What's your dependant cpf?");
             String depCpf = sc.next();
-            PassangerDependant newDependant = new PassangerDependant( depName, depBdate,  depCpf,  destination,  name,  CPF,  bDate);
+            PassengerDependant newDependant = new PassengerDependant( depName, depBdate,  depCpf,  destination,  name,  CPF,  bDate);
             System.out.println("Your booking and your dependant's are complete!");
+            System.out.println(newDependant.toString());
         }}
        catch(InputMismatchException e){
            e.printStackTrace();
@@ -49,6 +50,5 @@ public class Main {
        finally {
            sc.close();
        }
-
     }
 }
