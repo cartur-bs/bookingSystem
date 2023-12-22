@@ -5,6 +5,8 @@ import entities.PassengerDependant;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -12,17 +14,21 @@ import java.util.Scanner;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) throws SQLException {
+
+        //methods to connect with the database
         Connection con = DB.getConnection();
         String sql = "INSERT INTO Teste(Nome, DN) VALUES (?,?)";
         PreparedStatement ps = null;
 
         Scanner sc = new Scanner(System.in);
+        SimpleDateFormat dateConvert = new SimpleDateFormat("dd-MM-yyyy");
         //starting the program
        try{ System.out.println("Hello, let's make your booking!");
         System.out.println("What's your name?");
         String name = sc.next();
         System.out.println("What's your birth date?");
         String bDate = sc.next();
+        dateConvert.parse(bDate);
         System.out.println("What's your cpf?");
         String CPF = sc.next();
         System.out.println("What's your email?");
@@ -65,8 +71,9 @@ public class Main {
        catch(InputMismatchException e){
            e.printStackTrace();
            System.out.println("Insert a valid value");
-       }
-       finally {
+       } catch (ParseException e) {
+           throw new RuntimeException(e);
+       } finally {
            sc.close();
        }
 
