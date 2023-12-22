@@ -62,6 +62,7 @@ public class Main {
             String depName = sc.next();
             System.out.println("What's your dependant birth date?");
             String depBdate = sc.next();
+            dateConvert.parse(depBdate);
             System.out.println("What's your dependant cpf?");
             String depCpf = sc.next();
             PassengerDependant newDependant = new PassengerDependant( depName, depBdate,  depCpf,  destination,  name,  CPF,  bDate);
