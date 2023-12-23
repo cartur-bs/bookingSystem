@@ -18,18 +18,19 @@ public class Main {
 
         //methods to connect with the database
         Connection con = DB.getConnection();
-        String sql = "INSERT INTO passangerWithNoDependant(name, bDate, CPF , email, destination, dependant ) VALUES (?,?,?,?,?,?)";
-        PreparedStatement ps = null;
+      //  String passangerStatement = "INSERT INTO passangerWithNoDependant(name, bDate, CPF , email, destination, dependant ) VALUES (?,?,?,?,?,?)";
+//        String dependantStatement = "INSERT INTO passangerDependant(depName, depBDate, depCPF,responsibleName, responsibleEmail,responsibleCPF, responsibleBDate) VALUES(?,?,?,?,?,?,?)";
+       // PreparedStatement ps = null;
 
-        //starting the program
-        try (Scanner sc = new Scanner(System.in)) {
+        //starting the executable program
+       try (Scanner sc = new Scanner(System.in)) {
             SimpleDateFormat dateConvert = new SimpleDateFormat("dd-MM-yyyy");
             System.out.println("Hello, let's make your booking!");
             System.out.println("What's your name?");
-            String name = sc.next();
+            String name = sc.nextLine();
             System.out.println("What's your birth date?(dd-MM-yyyy)");
             String bDate = sc.next();
-            dateConvert.parse(bDate);
+           // dateConvert.parse(bDate);
             System.out.println("What's your cpf?");
             String CPF = sc.next();
             System.out.println("What's your email?");
@@ -40,22 +41,12 @@ public class Main {
             char isThereDependant = sc.next().charAt(0);
 
             if (isThereDependant == 'N' || isThereDependant == 'n') {
-                Passenger passenger = new Passenger(name, bDate, CPF, email, destination);
-                System.out.println("Your booking is complete!");
+                Passenger passenger = new Passenger(name,bDate, CPF, email, destination, isThereDependant);
                 try {
-                    ps = DB.getConnection().prepareStatement(sql);
-                    ps.setString(1, name);
-                    ps.setDate(2, Date.valueOf(bDate));
-                    ps.setString(3, CPF);
-                    ps.setString(4, email);
-                    ps.setString(5,destination);
-                    ps.setString(6, String.valueOf(isThereDependant));
-
-                    ps.executeUpdate();
-                    ps.close();
-
+                    passenger.createPerson();
+                    System.out.println("Your booking is complete!");
                 } catch (SQLException e) {
-                    throw new RuntimeException(e);
+                    throw new SQLException(e);
                 }
             }
 
@@ -63,20 +54,27 @@ public class Main {
                 System.out.println("Let's add your dependant information!");
                 System.out.println("What's your dependant name?");
                 String depName = sc.next();
+                sc.nextLine();
                 System.out.println("What's your dependant birth date?");
                 String depBdate = sc.next();
-                dateConvert.parse(depBdate);
                 System.out.println("What's your dependant cpf?");
                 String depCpf = sc.next();
-                PassengerDependant newDependant = new PassengerDependant(depName, depBdate, depCpf, destination, name, CPF, bDate);
-                System.out.println("Your booking and your dependant's are complete!");
-                System.out.println(newDependant.toString());
+                sc.close();
+                Passenger passenger = new Passenger(name,bDate, CPF, email, destination, isThereDependant);
+                PassengerDependant newDependant = new PassengerDependant(depName, depBdate, depCpf, name,email, CPF, bDate);
+                try {
+                    passenger.createPerson();
+                   newDependant.createDependant();
+                    System.out.println("Your booking and your dependant's are complete!");
+                } catch (SQLException e) {
+                    throw new SQLException(e);
+                }
+
+
             }
         } catch (InputMismatchException e) {
             e.printStackTrace();
             System.out.println("Insert a valid value");
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
         }
 
         DB.closeConnection();
