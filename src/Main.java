@@ -16,67 +16,77 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws SQLException {
 
-        //methods to connect with the database
-        Connection con = DB.getConnection();
-      //  String passangerStatement = "INSERT INTO passangerWithNoDependant(name, bDate, CPF , email, destination, dependant ) VALUES (?,?,?,?,?,?)";
-//        String dependantStatement = "INSERT INTO passangerDependant(depName, depBDate, depCPF,responsibleName, responsibleEmail,responsibleCPF, responsibleBDate) VALUES(?,?,?,?,?,?,?)";
-       // PreparedStatement ps = null;
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Would you like to make a booking or consult an existent one?");
+        String action = sc.nextLine().toLowerCase();
+        Passenger passenger = new Passenger();
 
-        //starting the executable program
-       try (Scanner sc = new Scanner(System.in)) {
-            SimpleDateFormat dateConvert = new SimpleDateFormat("dd-MM-yyyy");
-            System.out.println("Hello, let's make your booking!");
-            System.out.println("What's your name?");
-            String name = sc.nextLine();
-            System.out.println("What's your birth date?(dd-MM-yyyy)");
-            String bDate = sc.next();
-           // dateConvert.parse(bDate);
-            System.out.println("What's your cpf?");
-            String CPF = sc.next();
-            System.out.println("What's your email?");
-            String email = sc.next();
-            System.out.println("What's your destination?");
-            String destination = sc.next();
-            System.out.println("Would you like to add a dependant?(Y/N)");
-            char isThereDependant = sc.next().charAt(0);
+        if(action.equals("make") ){
+            try {
+               // SimpleDateFormat dateConvert = new SimpleDateFormat("dd-MM-yyyy");
+                System.out.println("Hello, let's make your booking!");
+                System.out.println("What's your name?");
+                String name = sc.nextLine();
+                System.out.println("What's your birth date?(dd-MM-yyyy)");
+                String bDate = sc.next();
+                // dateConvert.parse(bDate);
+                System.out.println("What's your cpf?");
+                String CPF = sc.next();
+                System.out.println("What's your email?");
+                String email = sc.next();
+                System.out.println("What's your destination?");
+                String destination = sc.next();
+                System.out.println("Would you like to add a dependant?(Y/N)");
+                char isThereDependant = sc.next().charAt(0);
 
-            if (isThereDependant == 'N' || isThereDependant == 'n') {
-                Passenger passenger = new Passenger(name,bDate, CPF, email, destination, isThereDependant);
-                try {
-                    passenger.createPerson();
-                    System.out.println("Your booking is complete!");
-                } catch (SQLException e) {
-                    throw new SQLException(e);
-                }
-            }
-
-            if (isThereDependant == 'Y' || isThereDependant == 'y') {
-                System.out.println("Let's add your dependant information!");
-                System.out.println("What's your dependant name?");
-                String depName = sc.next();
-                sc.nextLine();
-                System.out.println("What's your dependant birth date?");
-                String depBdate = sc.next();
-                System.out.println("What's your dependant cpf?");
-                String depCpf = sc.next();
-                sc.close();
-                Passenger passenger = new Passenger(name,bDate, CPF, email, destination, isThereDependant);
-                PassengerDependant newDependant = new PassengerDependant(depName, depBdate, depCpf, name,email, CPF, bDate);
-                try {
-                    passenger.createPerson();
-                   newDependant.createDependant();
-                    System.out.println("Your booking and your dependant's are complete!");
-                } catch (SQLException e) {
-                    throw new SQLException(e);
+                if (isThereDependant == 'N' || isThereDependant == 'n') {
+                    passenger = new Passenger(name,bDate, CPF, email, destination, isThereDependant);
+                    try {
+                        passenger.createPerson();
+                        System.out.println("Your booking is complete!");
+                    } catch (SQLException e) {
+                        throw new SQLException(e);
+                    }
                 }
 
-
+                if (isThereDependant == 'Y' || isThereDependant == 'y') {
+                    System.out.println("Let's add your dependant information!");
+                    System.out.println("What's your dependant name?");
+                    String depName = sc.next();
+                    sc.nextLine();
+                    System.out.println("What's your dependant birth date?");
+                    String depBdate = sc.next();
+                    System.out.println("What's your dependant cpf?");
+                    String depCpf = sc.next();
+                    passenger = new Passenger(name,bDate, CPF, email, destination, isThereDependant);
+                    PassengerDependant newDependant = new PassengerDependant(depName, depBdate, depCpf, name,email, CPF, bDate);
+                    try {
+                        passenger.createPerson();
+                        newDependant.createDependant();
+                        System.out.println("Your booking and your dependant's are complete!");
+                    } catch (SQLException e) {
+                        System.out.println("An error occurred, please try again.");
+                        throw new SQLException(e);
+                    }
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Insert a valid value");
+                throw new InputMismatchException();
             }
-        } catch (InputMismatchException e) {
-            e.printStackTrace();
-            System.out.println("Insert a valid value");
+        }
+        if(action.equals("consult")){
+            System.out.println("Let's consult your reservation, what's your CPF?");
+            String cpfToConsult = sc.nextLine();
+            try{
+                passenger.consultPerson(cpfToConsult);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }catch(NullPointerException e){
+                throw new NullPointerException();
+            }
         }
 
+        sc.close();
         DB.closeConnection();
     }
 }
