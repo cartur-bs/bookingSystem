@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class PassengerDependant {
     PreparedStatement ps = null;
-    String dependantStatement = "INSERT INTO passengerDependant(depName, depBDate, depCPF,responsibleName, responsibleEmail,responsibleCPF, responsibleBDate) VALUES(?,?,?,?,?,?,?)";
+    String dependantStatement = "INSERT INTO passangerDependant(depName, depBDate, depCPF,responsibleName, responsibleEmail,responsibleCPF, responsibleBDate) VALUES(?,?,?,?,?,?,?)";
 
     String depName;
     String depBirthDate;

@@ -2,12 +2,7 @@ import dbProperties.DB;
 import entities.Passenger;
 import entities.PassengerDependant;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -23,13 +18,11 @@ public class Main {
 
         if(action.equals("make") ){
             try {
-               // SimpleDateFormat dateConvert = new SimpleDateFormat("dd-MM-yyyy");
                 System.out.println("Hello, let's make your booking!");
                 System.out.println("What's your name?");
                 String name = sc.nextLine();
                 System.out.println("What's your birth date?(dd-MM-yyyy)");
                 String bDate = sc.next();
-                // dateConvert.parse(bDate);
                 System.out.println("What's your cpf?");
                 String CPF = sc.next();
                 System.out.println("What's your email?");
@@ -37,9 +30,9 @@ public class Main {
                 System.out.println("What's your destination?");
                 String destination = sc.next();
                 System.out.println("Would you like to add a dependant?(Y/N)");
-                char isThereDependant = sc.next().charAt(0);
+                char isThereDependant = sc.next().toLowerCase().charAt(0);
 
-                if (isThereDependant == 'N' || isThereDependant == 'n') {
+                if ( isThereDependant == 'n') {
                     passenger = new Passenger(name,bDate, CPF, email, destination, isThereDependant);
                     try {
                         passenger.createPerson();
@@ -49,7 +42,7 @@ public class Main {
                     }
                 }
 
-                if (isThereDependant == 'Y' || isThereDependant == 'y') {
+                if ( isThereDependant == 'y') {
                     System.out.println("Let's add your dependant information!");
                     System.out.println("What's your dependant name?");
                     String depName = sc.next();
@@ -79,13 +72,14 @@ public class Main {
             String cpfToConsult = sc.nextLine();
             try{
                 passenger.consultPerson(cpfToConsult);
+
+
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }catch(NullPointerException e){
                 throw new NullPointerException();
             }
         }
-
         sc.close();
         DB.closeConnection();
     }

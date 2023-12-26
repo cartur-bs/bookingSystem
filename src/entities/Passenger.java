@@ -13,8 +13,6 @@ public class Passenger {
     char isThereDependant;
     Connection con = DB.getConnection();
 
-    //creating a new object without dependant
-
     public Passenger() throws SQLException {
     }
 
@@ -41,31 +39,42 @@ public class Passenger {
          ps.executeUpdate();
      }catch(SQLException e){
             throw new SQLException(e);
-    }
-    }
+    }}
 
     //consulting data from database
     public void consultPerson(String cpf) throws SQLException{
-        String passengerStatement = "SELECT name, CPF, destination, dependant FROM passangerWithNoDependant WHERE CPF = " + "'"+ cpf  +"'" +  ";";
-        try{
-            Statement st = con.createStatement();
-            ResultSet rst = st.executeQuery(passengerStatement);
+        String passengerStatement = "SELECT name, CPF, destination, dependant FROM passangerWithNoDependant WHERE CPF =  '"+ cpf  + "';" ;
+        String depStatement = "SELECT depName, depBDate, depCPF FROM passangerDependant WHERE responsibleCPF = '"+ cpf  + "'; ";
+        Statement st = con.createStatement();
+        ResultSet rst = null;
 
+        try{
+            rst = st.executeQuery(passengerStatement);
             while(rst.next()){
                 String dbName = rst.getString("name");
                 String dbCPF = rst.getString("CPF");
                 String dbDestination = rst.getString("destination");
                 String dbDependant = rst.getString("dependant");
-              // System.out.println(rst.getString("name: " +  )+", CPF: " + 3 + ", destination: " + 5 + "dependant" + 6);
 
                System.out.println(rst.getString("name") + " | " + rst.getString("CPF") +" | "
                        + rst.getString("destination") + " | " + rst.getString("dependant"));
            }
+           // if(dbDependant == 'y'){
+                rst = st.executeQuery(depStatement);
+                while(rst.next()){
+                    String dbDepName = rst.getString("depName");
+                    String dbDepCPF = rst.getString("depBDate");
+                    String dbDepDestination = rst.getString("depCPF");
+                    System.out.println("Dependant's information: ");
+                    System.out.println(rst.getString("depName") + " | " + rst.getString("depBDate") +" | "
+                            + rst.getString("depCPF"));
+                }
+          //  }
            st.close();
            rst.close();
         }catch(SQLException e){
             throw new SQLException();
         }
-    }
 
+    }
 }
