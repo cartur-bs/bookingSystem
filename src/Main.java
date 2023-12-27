@@ -4,6 +4,7 @@ import entities.PassengerDependant;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -11,8 +12,8 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws SQLException {
 
-        LocalDate date;
-        DateTimeFormatter dateFormart = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter dateHourFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
        try{
            Scanner sc = new Scanner(System.in);
@@ -25,20 +26,25 @@ public class Main {
                    System.out.println("Hello, let's make your booking!");
                    System.out.println("What's your name?");
                    String name = sc.nextLine();
-                   System.out.println("What's your birth date?(dd-MM-yyyy)");
-                   String bDate = sc.next();
-                   LocalDate bDateFormated= LocalDate.parse(bDate, dateFormart);
+                   System.out.println("What's your birth date?(dd/MM/yyyy)");
+                   String bDate = sc.nextLine();
+                   LocalDate bDateFormated= LocalDate.parse(bDate, dateFormat);
                    System.out.println("What's your cpf?");
                    String CPF = sc.next();
                    System.out.println("What's your email?");
                    String email = sc.next();
                    System.out.println("What's your destination?");
                    String destination = sc.next();
+                   sc.nextLine();
+                   System.out.println("Insert the date and time of your departure(dd/MM/yyyy HH:mm):");
+                   String departureDate = sc.nextLine();
+                   LocalDateTime departureDateFormated = LocalDateTime.parse(departureDate, dateHourFormat);
+
                    System.out.println("Would you like to add a dependant?(Y/N)");
                    char isThereDependant = sc.next().toLowerCase().charAt(0);
 
                   if (isThereDependant == 'n') {
-                       passenger = new Passenger(name, bDateFormated, CPF, email, destination, isThereDependant);
+                       passenger = new Passenger(name, bDateFormated, CPF, email, destination,departureDateFormated, isThereDependant);
                        try {
                            passenger.createPerson();
                            System.out.println("Your booking is complete!");
@@ -55,7 +61,7 @@ public class Main {
                        String depBdate = sc.next();
                        System.out.println("What's your dependant cpf?");
                        String depCpf = sc.next();
-                       passenger = new Passenger(name, bDateFormated, CPF, email, destination, isThereDependant);
+                      passenger = new Passenger(name, bDateFormated, CPF, email, destination,departureDateFormated, isThereDependant);
                        PassengerDependant newDependant = new PassengerDependant(depName, depBdate, depCpf, name, email, CPF, bDate);
                        try {
                            passenger.createPerson();

@@ -4,6 +4,7 @@ import dbProperties.DB;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Passenger {
     String name;
@@ -11,26 +12,28 @@ public class Passenger {
     String cpf;
     String email;
     String destination;
-    String departDate;
+    LocalDateTime departDate;
     char isThereDependant;
     Connection con = DB.getConnection();
 
     public Passenger() throws SQLException {
     }
 
-    public Passenger(String name, LocalDate bDateFormated, String cpf, String email, String destination, char isThereDependant) throws SQLException {
+    public Passenger(String name, LocalDate bDateFormated, String cpf, String email, String destination,LocalDateTime departDate, char isThereDependant) throws SQLException {
         this.name = name;
         this.birthDate = bDateFormated;
         this.cpf = cpf;
-        this.destination = destination;
         this.email = email;
+        this.destination = destination;
+        this.departDate = departDate;
         this.isThereDependant=isThereDependant;
     }
 
     //sending the data to database
      public void createPerson() throws SQLException{
-         String passengerStatement = "INSERT INTO passengerWithNoDependant(name, bDate, CPF , email, destination, dependant ) VALUES (?,?,?,?,?,?)";
+         String passengerStatement = "INSERT INTO passenger(name, bDate, CPF , email, destination, departDate, dependant ) VALUES (?,?,?,?,?,?,?)";
          Date sqlDate = Date.valueOf(birthDate);
+         Timestamp sqlDepartureTimestamp = Timestamp.valueOf(departDate);
          try{
          PreparedStatement ps = con.prepareStatement(passengerStatement);
          ps.setString(1, name);
@@ -38,7 +41,8 @@ public class Passenger {
          ps.setString(3, cpf);
          ps.setString(4, email);
          ps.setString(5,destination);
-         ps.setString(6, String.valueOf(isThereDependant));
+         ps.setTimestamp(6, sqlDepartureTimestamp);
+         ps.setString(7, String.valueOf(isThereDependant));
          ps.executeUpdate();
      }catch(SQLException e){
             throw new SQLException(e);
