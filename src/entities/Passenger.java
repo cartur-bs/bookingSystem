@@ -32,12 +32,12 @@ public class Passenger {
     //sending the data to database
      public void createPerson() throws SQLException{
          String passengerStatement = "INSERT INTO passenger(name, bDate, CPF , email, destination, departDate, dependant ) VALUES (?,?,?,?,?,?,?)";
-         Date sqlDate = Date.valueOf(birthDate);
+         Date sqlBDate = Date.valueOf(birthDate);
          Timestamp sqlDepartureTimestamp = Timestamp.valueOf(departDate);
          try{
          PreparedStatement ps = con.prepareStatement(passengerStatement);
          ps.setString(1, name);
-         ps.setDate(2,  sqlDate);
+         ps.setDate(2,  sqlBDate);
          ps.setString(3, cpf);
          ps.setString(4, email);
          ps.setString(5,destination);
@@ -50,8 +50,8 @@ public class Passenger {
 
     //consulting data from database
     public void consultPerson(String cpf) throws SQLException{
-        String passengerStatement = "SELECT name, CPF, destination, dependant FROM passangerWithNoDependant WHERE CPF =  '"+ cpf  + "';" ;
-        String depStatement = "SELECT depName, depBDate, depCPF FROM passangerDependant WHERE responsibleCPF = '"+ cpf  + "'; ";
+        String passengerStatement = "SELECT name, CPF, destination, dependant FROM passenger WHERE CPF =  '"+ cpf  + "';" ;
+        String depStatement = "SELECT depName, depBDate, depCPF FROM passengerDependant WHERE responsibleCPF = '"+ cpf  + "'; ";
         Statement st = con.createStatement();
         ResultSet rst;
 

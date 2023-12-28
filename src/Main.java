@@ -41,9 +41,9 @@ public class Main {
                    LocalDateTime departureDateFormated = LocalDateTime.parse(departureDate, dateHourFormat);
 
                    System.out.println("Would you like to add a dependant?(Y/N)");
-                   char isThereDependant = sc.next().toLowerCase().charAt(0);
+                   char isThereDependant = sc.next().toUpperCase().charAt(0);
 
-                  if (isThereDependant == 'n') {
+                  if (isThereDependant == 'N') {
                        passenger = new Passenger(name, bDateFormated, CPF, email, destination,departureDateFormated, isThereDependant);
                        try {
                            passenger.createPerson();
@@ -52,17 +52,18 @@ public class Main {
                            System.out.println("An error occurred during your booking, please try again.");
                            throw new SQLException(e);
                        }
-                   } else if (isThereDependant == 'y') {
+                   } else if (isThereDependant == 'Y') {
                        System.out.println("Let's add your dependant information!");
                        System.out.println("What's your dependant name?");
                        String depName = sc.next();
                        sc.nextLine();
                        System.out.println("What's your dependant birth date?");
                        String depBdate = sc.next();
+                      LocalDate depBDateFormated = LocalDate.parse(depBdate, dateFormat);
                        System.out.println("What's your dependant cpf?");
                        String depCpf = sc.next();
                       passenger = new Passenger(name, bDateFormated, CPF, email, destination,departureDateFormated, isThereDependant);
-                       PassengerDependant newDependant = new PassengerDependant(depName, depBdate, depCpf, name, email, CPF, bDate);
+                       PassengerDependant newDependant = new PassengerDependant(depName, depBDateFormated, depCpf,departureDateFormated, name, email, CPF, bDate);
                        try {
                            passenger.createPerson();
                            newDependant.createDependant();
