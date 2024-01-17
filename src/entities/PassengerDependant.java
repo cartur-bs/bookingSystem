@@ -16,9 +16,6 @@ public class PassengerDependant {
     String responsibleEmail;
     String responsibleCpf;
 
-    public PassengerDependant() {
-    }
-
     public PassengerDependant(String DepName, LocalDate DepBirthDate, String DepCpf, LocalDateTime departTime, String responsibleName, String responsibleEmail, String responsibleCpf, LocalDate responsibleBirthdate) {
         this.depName = DepName;
         this.depBirthDate = DepBirthDate;
@@ -49,5 +46,12 @@ public class PassengerDependant {
         catch (SQLException e){
             throw new SQLException();
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Dependant Name= " + depName + " | " +
+                "Dependant Birth Date= " + depBirthDate + " | " +
+                " Dependant Cpf= " + depCpf +" | " ;
     }
 }

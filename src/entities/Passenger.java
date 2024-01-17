@@ -19,7 +19,7 @@ public class Passenger {
     public Passenger() throws SQLException {
     }
 
-    public Passenger(String name, LocalDate bDateFormated, String cpf, String email, String destination,LocalDateTime departDate, char isThereDependant) throws SQLException {
+    public Passenger(String name, LocalDate bDateFormated, String cpf, String email, String destination, LocalDateTime departDate, char isThereDependant) throws SQLException {
         this.name = name;
         this.birthDate = bDateFormated;
         this.cpf = cpf;
@@ -73,5 +73,14 @@ public class Passenger {
         }catch(SQLException e){
             throw new SQLException();
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Name= " + name + " | " +
+                "cpf= " + cpf + " | " +
+                "email =" + email + " | " +
+                "Destination =" + destination + " | " +
+                "Departure Date =" + departDate;
     }
 }

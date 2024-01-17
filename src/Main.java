@@ -84,11 +84,17 @@ public class Main {
                             }
                         }
                         try {
+                            //sends data to database
                             passenger.createPerson();
                             for (PassengerDependant e : newDependantList) {
                                 e.createDependant();
                             }
-                            System.out.println("Your booking and your dependant's are complete!");
+                            //prints created data
+                            System.out.println(passenger);
+                            System.out.println("Your booking and your dependant's are complete! Check the information: ");
+                            for (PassengerDependant e : newDependantList) {
+                                System.out.println( e.toString() );
+                            }
                         } catch (SQLException e) {
                             System.out.println("An error occurred during your booking, please try again.");
                             throw new SQLException(e);
