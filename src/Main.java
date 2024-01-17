@@ -6,7 +6,9 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -44,7 +46,7 @@ public class Main {
                         System.out.println("Please, insert a valid date, beginning from today");
                         return;
                     }
-                        System.out.println("Would you like to add a dependant?(Y/N)");
+                    System.out.println("Would you like to add a dependant?(Y/N)");
                     char isThereDependant = sc.next().toUpperCase().charAt(0);
 
                     if (isThereDependant == 'N') {
@@ -57,20 +59,35 @@ public class Main {
                             throw new SQLException(e);
                         }
                     } else if (isThereDependant == 'Y') {
-                        System.out.println("Let's add your dependant information!");
-                        System.out.println("What's your dependant name?");
-                        String depName = sc.next();
-                        sc.nextLine();
-                        System.out.println("What's your dependant birth date?");
-                        String depBdate = sc.next();
-                        LocalDate depBDateFormated = LocalDate.parse(depBdate, dateFormat);
-                        System.out.println("What's your dependant cpf?");
-                        String depCpf = sc.next();
+                        System.out.println("How many dependants would you like to add?");
+                        int depLoop = sc.nextInt();
+                        if (depLoop < 1) {
+                            System.out.println("Insert a valid value!");
+                            return;
+                        }
                         passenger = new Passenger(name, bDateFormated, CPF, email, destination, departureDateFormated, isThereDependant);
-                        PassengerDependant newDependant = new PassengerDependant(depName, depBDateFormated, depCpf, departureDateFormated, name, email, CPF, bDate);
+                        List<PassengerDependant> newDependantList = new ArrayList<>();
+
+                        if (depLoop > 0) {
+                            for (int i = 0; i < depLoop; i++) {
+                                System.out.println("Add information of dependant " + (i + 1));
+                                System.out.println("What's your dependant name?");
+                                String depName = sc.next();
+                                sc.nextLine();
+                                System.out.println("What's your dependant birth date?");
+                                String depBdate = sc.next();
+                                LocalDate depBDateFormated = LocalDate.parse(depBdate, dateFormat);
+                                System.out.println("What's your dependant cpf?");
+                                String depCpf = sc.next();
+                                PassengerDependant newDep = new PassengerDependant(depName, depBDateFormated, depCpf, departureDateFormated, name, email, CPF, bDateFormated);
+                                newDependantList.add(newDep);
+                            }
+                        }
                         try {
                             passenger.createPerson();
-                            newDependant.createDependant();
+                            for (PassengerDependant e : newDependantList) {
+                                e.createDependant();
+                            }
                             System.out.println("Your booking and your dependant's are complete!");
                         } catch (SQLException e) {
                             System.out.println("An error occurred during your booking, please try again.");
